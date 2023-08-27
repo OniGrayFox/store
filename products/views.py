@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Product
+from .models import Product, ProductCategory
 # Create your views here.
 def index_view(request):
 
@@ -11,7 +11,8 @@ def index_view(request):
 
 def products_view(request):
     args = {
-        'products': Product.objects.all()
+        'products': Product.objects.all(),
+        'categories': ProductCategory.objects.all()
 
     }
     return render(request, "products/products.html", args)
