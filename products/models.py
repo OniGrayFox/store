@@ -1,5 +1,5 @@
 from django.db import models
-
+from users.models import User
 # Create your models here.
 
 
@@ -30,5 +30,15 @@ class Product(models.Model):
         return f'{self.name}'
 
 
+class Basket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
+    quantity = models.PositiveSmallIntegerField(default=0, verbose_name="Количество Товара")
+    created_timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Корзина"
+        verbose_name_plural = "Корзина"
 
+    def __str__(self):
+        return f"Корзина для {self.user.name} | Продукт: {self.product.name} "

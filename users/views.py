@@ -3,7 +3,7 @@ from django.contrib import auth, messages
 from users.models import User
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 from django.urls import reverse
-
+from products.models import Basket
 
 def login_view(request):
 
@@ -55,7 +55,8 @@ def profile_view(request):
 
 
     args = {
-        'form': form
+        'form': form,
+        'baskets': Basket.objects.filter(user=request.user)
             }
     return render(request, "users/profile.html", args)
 
