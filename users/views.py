@@ -4,6 +4,8 @@ from users.models import User
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 from django.urls import reverse
 from products.models import Basket
+from django.contrib.auth.decorators import login_required
+
 
 def login_view(request):
 
@@ -43,7 +45,7 @@ def registration_view(request):
     }
     return render(request, "users/register.html", args)
 
-
+@login_required
 def profile_view(request):
     if request.POST:
         form = UserProfileForm(instance=request.user, data=request.POST, files=request.FILES)
