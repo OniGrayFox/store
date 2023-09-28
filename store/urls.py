@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path, include
-from products.views import index_view
+from products.views import IndexView
 from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index_view, name='index'),
+    path('', IndexView.as_view(extra_context={'title':'store'}), name='index'),
     path('products/', include('products.urls', namespace='products')),
     path('users/', include('users.urls', namespace='users'))
 ]

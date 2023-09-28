@@ -4,15 +4,25 @@ from users.models import User
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.views.generic import TemplateView
+
+
+class IndexView(TemplateView):
+    template_name = 'products/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data()
+        context['title'] = 'Store'
+        return context
 
 
 
-def index_view(request):
-    args = {
-        'title': 'Test title',
-        'username': 'artem',
-    }
-    return render(request, "products/index.html", args)
+# def index_view(request):
+#     args = {
+#         'title': 'Test title',
+#         'username': 'artem',
+#     }
+#     return render(request, "products/index.html", args)
 
 
 def products_view(request, category_id=None, page_number=1):
