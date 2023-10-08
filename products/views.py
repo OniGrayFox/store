@@ -7,6 +7,9 @@ from django.core.paginator import Paginator
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 
+
+
+
 class IndexView(TemplateView):
     template_name = 'products/index.html'
 
@@ -59,6 +62,7 @@ class ProductsListView(ListView):
 #
 #     }
 #     return render(request, "products/products.html", args)
+
 
 
 @login_required

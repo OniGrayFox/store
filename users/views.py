@@ -2,9 +2,11 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
 from users.models import User
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from products.models import Basket
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
+
 
 
 def login_view(request):
@@ -28,22 +30,31 @@ def login_view(request):
     return render(request, "users/login.html", args)
 
 
-def registration_view(request):
-    if request.POST:
-        form = UserRegistrationForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Поздравляем! пользователь создан!")
-            return HttpResponseRedirect(reverse('users:login'))
-    else:
-        form = UserRegistrationForm()
 
-    args = {
+class UserRegistrationView(CreateView):
+    model = User
+    template_name = "users/register.html"
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy('users:login')
 
-        "form": form,
 
-    }
-    return render(request, "users/register.html", args)
+
+# def registration_view(request):
+#     if request.POST:
+#         form = UserRegistrationForm(data=request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Поздравляем! пользователь создан!")
+#             return HttpResponseRedirect(reverse('users:login'))
+#     else:
+#         form = UserRegistrationForm()
+#
+#     args = {
+#
+#         "form": form,
+#
+#     }
+#     return render(request, "users/register.html", args)
 
 @login_required
 def profile_view(request):
