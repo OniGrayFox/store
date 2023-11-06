@@ -6,6 +6,8 @@ from django.urls import reverse, reverse_lazy
 from products.models import Basket
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.views import LoginView
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 
 class UserLoginView(LoginView):
@@ -14,12 +16,12 @@ class UserLoginView(LoginView):
 
 
 
-class UserRegistrationView(CreateView):
+class UserRegistrationView(SuccessMessageMixin, CreateView):
     model = User
     template_name = "users/register.html"
     form_class = UserRegistrationForm
     success_url = reverse_lazy('users:login')
-
+    success_message = 'Вы успешно зарегистрировались'
 
 class UserProfileView(UpdateView):
     model = User

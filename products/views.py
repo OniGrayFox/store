@@ -6,17 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
+from common.views import TitleMixin
 
 
 
-
-class IndexView(TemplateView):
+class IndexView(TitleMixin ,TemplateView):
     template_name = 'products/index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data()
-        context['title'] = 'Store'
-        return context
+    title = 'Store'
 
 
 
@@ -31,7 +27,7 @@ class ProductsListView(ListView):
     model = Product
     template_name = "products/products.html"
     paginate_by = 2
-
+    title = 'Store - каталог'
     def get_queryset(self):
         queryset = super(ProductsListView, self).get_queryset()
         category_id = self.kwargs.get('category_id')
@@ -40,7 +36,6 @@ class ProductsListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsListView, self).get_context_data()
-        context['title'] = 'Store - каталог'
         context['categories'] = ProductCategory.objects.all()
         return context
 
