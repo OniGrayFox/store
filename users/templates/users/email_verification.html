@@ -1,7 +1,7 @@
 {% extends "users/base.html"%}
-{% load 'static' %}
+{% load static %}
 
-
+{% block content %}
 <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
         <main>
@@ -15,7 +15,7 @@
                                 <h4>Ваша учетная запись успешно подтверждена!</h4>
                             </div>
                             <div class="card-footer text-center">
-                                <div class="small"><a href="register.html">Продолжить</a></div>
+                                <div class="small"><a href="{% url 'users:login' %}">Продолжить</a></div>
                             </div>
                         </div>
                     </div>
@@ -23,3 +23,5 @@
             </div>
         </main>
     </div>
+</div>
+{% endblock %}

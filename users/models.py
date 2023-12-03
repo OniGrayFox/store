@@ -2,6 +2,9 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
+from django.urls import reverse
+from django.conf import settings
+from django.utils import timezone
 
 class User(AbstractUser):
     image = models.ImageField(upload_to="user_images", null=True, blank=True)
@@ -27,12 +30,20 @@ class EmailVerification(models.Model):
         verbose_name_plural = "Верификации пользователей"
 
     def __str__(self):
-        return f'Подверждение личности для {self.user.name} {self.user.email}'
+        return f'Подверждение личности для {self.user.username} {self.user.email}'
 
     def send_verification_email(self):
+        link = reverse('users:verify', kwargs={'email': self.user.email, 'code': self.code})
+        ver_link = f"{settings.DOMAIN_NAME}{link}"
+        subject = f"Подтверждение учетной записи для {self.user.username}"
+        message = f"Для подтверждения учетной записи для {self.user.username} перейдите по ссылке: {ver_link}"
         send_mail(
-            '',
-            'testing....',
-            'from@example',
-            [self.user.email]
+            subject=subject,
+            message=message,
+            from_email='from@example',
+            recipient_list=[self.user.email],
+            fail_silently=True,
         )
+
+    def is_expired(self):
+        return True if timezone.now() >= self.expiration else False
