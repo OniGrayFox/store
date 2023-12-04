@@ -1,9 +1,8 @@
-from django.contrib.admin import site
 from django.contrib import admin
+from django.contrib.admin import site
 
-from users.models import User, EmailVerification
 from products.admin import BasketAdmin
-
+from users.models import EmailVerification, User
 
 
 class UserAdmin(admin.ModelAdmin):
