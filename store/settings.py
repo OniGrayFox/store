@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-z$p2__@me^h1u06zzey^ma&0n#(ly2t+dmg9y3j_+1$r(k)1g1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['185.251.88.96', '127.0.0.1']
 
 DOMAIN_NAME = "http://127.0.0.1:8000"
 # Application definition
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
 
     'debug_toolbar',
-    
+    'django_extensions',
+
     'products',
     'users',
     'order',
@@ -141,13 +142,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
 STATICFILES_DIRS = (
-        BASE_DIR/ 'static',
+    BASE_DIR / 'static',
 )
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+STATIC_ROOT = 'Users\Seeke\Desktop\store\store-server\store\static'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -192,13 +196,13 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-INTERNAL_IPS = ('127.0.0.1',)
+INTERNAL_IPS = ('127.0.0.1', 'localhost')
 
-
+APPEND_SLASH=False
 
 # Stripe
 
 
 STRIPE_PUBLIC_KEY = 'pk_test_51OLmvACiHd4VNJb0OWb2hRhyisiPJn5n6Vo1Xv4AzhXA409K7msuQ3Avbzh6vdOKwdbb45tMd39pvCePdZkLc74900XpvXgfN8'
 STRIPE_SECRET_KEY = 'sk_test_51OLmvACiHd4VNJb07GhGd3n2LuIq6ixAuBFFSxbbpOTbh6ruJdeYFtXCL07tZVk91x8BtASE6TpX8YW71RzcCxVv009uTZ8yCF'
-STRIPE_WEBHOOK_SECRET = 'whsec_214186fa8791e1f2482509962c2821a335225353045048dbe1586abbe18a7c12'
+STRIPE_WEBHOOK_SECRET = 'whsec_pALqmzJP9XyKq7j5pzMSyko5sOhwizap'  #'whsec_214186fa8791e1f2482509962c2821a335225353045048dbe1586abbe18a7c12'

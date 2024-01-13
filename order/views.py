@@ -10,7 +10,9 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import OrderForm
-from .models import Basket
+from products.models import Basket
+from .models import Order
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -63,18 +65,27 @@ def stripe_webhook_view(request):
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
-    except ValueError as e:
+    except ValueError:
         # Invalid payload
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
+    except stripe.error.SignatureVerificationError:
         # Invalid signature
         return HttpResponse(status=400)
+
+    # Handle the checkout.session.completed event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+
+        # Fulfill the purchase...
+        fulfill_order(session)
 
     # Passed signature verification
     return HttpResponse(status=200)
 
 
-def fulfill_order(line_items):
-  order_id = line_items.metadata.order_id
-
-  print(order_id)
+def fulfill_order(session):
+    print(session)
+    order_id = int(session.metadata.order_id)
+    order = Order.objects.get(id=order_id)
+    order.update_after_payment()
+    print("Fulfilling Order")

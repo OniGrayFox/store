@@ -6,3 +6,4 @@ from .models import Order
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'email', 'address']
+    list_filter = ['status']

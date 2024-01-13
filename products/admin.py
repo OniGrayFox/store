@@ -7,7 +7,6 @@ from django.conf import settings
 from .models import Basket, Product, ProductCategory
 
 
-
 class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
 
